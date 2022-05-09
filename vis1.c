@@ -12,5 +12,5 @@ int main()
 			putchar(c);
 		else
 			printf("\\%03o",c);
-	exit(0);
+	return 0;
 }
