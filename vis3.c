@@ -47,5 +47,5 @@ void vis(FILE *fp)
 		if (isascii(c) && (isprint(c) || c == '\n' || c == '\t' || c == ' '))
 			putchar(c);
 		else if (!strip)
-			printf("\\%03o" c);
+			printf("\\%03o", c);
 }
