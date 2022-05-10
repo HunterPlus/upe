@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #define PAGESIZE	22
 
-void print(FILE *, int);
+void print(FILE *, int);	/* print file in pagesize chunk */
 FILE *efopen(char *, char *);	/* fopen file, die if can't */
 
 char	*progname;	/* program name for error message */
@@ -33,4 +33,21 @@ FILE *efopen(char *file, char *mode)
 		return fp;
 	fprintf(stderr, "%s: can't open file %s mode %s\n", progname, file, mode);
 	exit(1);
+}
+
+void print(FILE *fp, int pagesize)
+{
+	static int lines = 0;		/* number of lines so far */
+	char	buf[BUFSIZ];
+	
+	while (fgets(buf, sizeof buf, fp) != NULL)
+		if (++lines < pagesize)
+			fputs(buf, stdout);
+		else {
+			buf[strlen(buf) - 1] = '\0';
+			fputs(buf, stdout);
+			fflush(stdout);
+			ttyin();
+			lines = 0;
+		}
 }
