@@ -5,8 +5,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-int strip = 0;		/* 1 => discard special characters	*/
+void vis(FILE *);	/* make chars visible in FILE *fp	*/
 
+int strip = 0;		/* 1 => discard special characters	*/
 int main(int argc, char *argv[])
 {
 	int	i;
@@ -36,4 +37,15 @@ int main(int argc, char *argv[])
 				fclose(fp);
 			}
 	exit(0);
+}
+
+void vis(FILE *fp)
+{
+	int	c;
+	
+	while ((c = getc(fp)) != EOF)
+		if (isascii(c) && (isprint(c) || c == '\n' || c == '\t' || c == ' '))
+			putchar(c);
+		else if (!strip)
+			printf("\\%03o" c);
 }
