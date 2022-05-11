@@ -7,7 +7,8 @@
 
 void print(FILE *, int);	
 FILE *efopen(char *, char *);	
-int ttyin(void);
+int ttyin(void);		/* process response from /dev/tty (version 1)	*/
+int ttyin2(void);		/* process response from /dev/tty (version 2)	*/
 
 char	*progname;	/* program name for error message */
 int main(int argc, char *argv[])
@@ -67,3 +68,20 @@ int ttyin()		/* process response from /dev/tty (version 1)	*/
 		return buf[0];
 }
 
+int ttyin2()		/* process response from /dev/tty (version 2)	*/
+{
+	char	buf[BUFSIZ];
+	static FILE *tty = NULL;
+	
+	if (tty == NULL)
+		efopen("/dev/tty", "r");
+	for (;;) {
+		if (fgets(buf, BUFSIZ, tty) == NULL || buf[0] == 'q') 
+			exit(0);
+		else if (buf[0] == '!') {
+			system(buf + 1);	/* BUG here	*/
+			printf("!\n");
+		} else			/* ordinary line	*/
+			return buf[0];
+	}
+}
