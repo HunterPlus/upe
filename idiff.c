@@ -6,7 +6,6 @@
 #include <unistd.h>             /* int unlink(const char *pathname)     */
 
 FILE *efopen(char *, char *);
-char *mktemp();
 
 char    *progname;
 #define HUGE    10000   /* large number of lines */
