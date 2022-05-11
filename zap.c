@@ -7,6 +7,7 @@
 
 FILE *efopen(char *, char *);
 int ttyin(void);		/* process response from /dev/tty (version 1)	*/
+int strindex(char *, char *);	
 
 char 	*progname;		/* program name for error message	*/
 char 	*ps = "ps -ag";		/* system dependent	*/
@@ -34,6 +35,17 @@ int main(int argc, char *argv[])
 			}
 		}
 	exit(0);
+}
+
+int strindex(char *s, char *t)			/* return index of t in s, -1 if none */
+{
+	int	i, n;
+	
+	n = strlen(t);
+	for (i = 0; s[i] != '\0'; i++)
+		if (strncmp(s+i, t, n) == 0)
+			return i;
+	return -1;
 }
 
 FILE *efopen(char *file, char *mode)		/* fopen file, die if can't */
