@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 void pick(char *);		/* offer choice of string s	*/
 FILE *efopen(char *, char *);	
