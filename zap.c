@@ -1,6 +1,8 @@
 /* zap: interactive process killer	*/
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <signal.h>
 
 FILE *efopen(char *, char *);
