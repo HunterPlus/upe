@@ -74,7 +74,7 @@ int ttyin2()		/* process response from /dev/tty (version 2)	*/
 	static FILE *tty = NULL;
 	
 	if (tty == NULL)
-		efopen("/dev/tty", "r");
+		tty = efopen("/dev/tty", "r");
 	for (;;) {
 		if (fgets(buf, BUFSIZ, tty) == NULL || buf[0] == 'q') 
 			exit(0);
