@@ -1,7 +1,8 @@
-/* p: print input in chunks (version 1)
+/* p: print input in chunks (version 1)	*/
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #define PAGESIZE	22
 
 void print(FILE *, int);	/* print file in pagesize chunk */
@@ -18,7 +19,7 @@ int main(int argc, char *argv[])
 	if (argc == 1)
 		print(stdin, PAGESIZE);
 	else
-		for (i = i; i < argc; i++) {
+		for (i = 1; i < argc; i++) {
 			fp = efopen(argv[i], "r");
 			print(fp, PAGESIZE);
 			fclose(fp);
@@ -59,7 +60,7 @@ int ttyin()		/* process response from /dev/tty (version 1)	*/
 	static FILE *tty = NULL;
 	
 	if (tty == NULL)
-		tty = efopen("/def/tty", "r");
+		tty = efopen("/dev/tty", "r");
 	if (fgets(buf, BUFSIZ, tty) == NULL || buf[0] == 'q')
 		exit(0);
 	else			/* ordinary line */
