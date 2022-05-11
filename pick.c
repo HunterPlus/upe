@@ -7,9 +7,22 @@ void pick(char *);		/* offer choice of string s	*/
 FILE *efopen(char *, char *);	
 int ttyin(void);
 
+char *progname;		/* program name for error message	*/
 int main(int argc, char *argv[])
 {
+	int	i;
+	char	buf[BUFSIZ];
 	
+	progname = argv[0];
+	if (argc == 2 && strcmp(argv[1], "-") == 0)	/* pick -	*/
+		while (fgets(buf, BUFSIZ, stdin) != NULL) {
+			buf[strlen(buf) - 1] = '\0';	/* drop newline	*/
+			pick(buf);
+		}
+	else
+		for (i = 1; i < argc; i++)
+			pick(argv[i]);
+	exit(0);
 }
 
 void pick(char *s)
