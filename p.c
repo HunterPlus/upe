@@ -6,6 +6,7 @@
 
 void print(FILE *, int);	/* print file in pagesize chunk */
 FILE *efopen(char *, char *);	/* fopen file, die if can't */
+int ttyin(void);
 
 char	*progname;	/* program name for error message */
 int main(int argc, char *argv[])
@@ -51,3 +52,17 @@ void print(FILE *fp, int pagesize)
 			lines = 0;
 		}
 }
+
+int ttyin()		/* process response from /dev/tty (version 1)	*/
+{
+	char	buf[BUFSIZ];
+	static FILE *tty = NULL;
+	
+	if (tty == NULL)
+		tty = efopen("/def/tty", "r");
+	if (fgets(buf, BUFSIZ, tty) == NULL || buf[0] == 'q')
+		exit(0);
+	else			/* ordinary line */
+		return buf[0];
+}
+
