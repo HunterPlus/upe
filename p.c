@@ -5,8 +5,8 @@
 #include <string.h>
 #define PAGESIZE	22
 
-void print(FILE *, int);	/* print file in pagesize chunk */
-FILE *efopen(char *, char *);	/* fopen file, die if can't */
+void print(FILE *, int);	
+FILE *efopen(char *, char *);	
 int ttyin(void);
 
 char	*progname;	/* program name for error message */
@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 	exit(0);
 }
 
-FILE *efopen(char *file, char *mode)
+FILE *efopen(char *file, char *mode)		/* fopen file, die if can't */
 {
 	FILE *fp;
 	
@@ -37,7 +37,7 @@ FILE *efopen(char *file, char *mode)
 	exit(1);
 }
 
-void print(FILE *fp, int pagesize)
+void print(FILE *fp, int pagesize)	/* print file in pagesize chunk */
 {
 	static int lines = 0;		/* number of lines so far */
 	char	buf[BUFSIZ];
