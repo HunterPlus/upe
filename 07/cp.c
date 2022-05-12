@@ -31,5 +31,10 @@ void error(char *s1, char *s2)  /* print error message and die */
         extern char *sys_errlist[];
         
         if (progname)
-                fprintf(stderr,
+                fprintf(stderr, "%s: ", progname);
+        fprintf(stderr, s1, s2);
+        if (errno > 0 && errno < sys_nerr)
+                fprintf (stderr, " (%s)", sys_errlist[errno]);
+        fprintf(stderr, "\n");
+        exit(1);
 }
