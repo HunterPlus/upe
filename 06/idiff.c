@@ -1,7 +1,7 @@
 /* idiff: interactive diff */
 
 #include <stdio.h>
-#include <stdlib.h>             /* exit(); char *mktemp(char *template); */
+#include <stdlib.h>             /* exit(); char *mkstemp(char *template); */
 #include <ctype.h>
 #include <unistd.h>             /* close(); int unlink(const char *pathname)     */
 
