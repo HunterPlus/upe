@@ -4,6 +4,8 @@
 #define PERMS   0644    /* RW for owner, R for group, others */
 char    *progname;
 
+void error(char *, char *);
+
 int main(int argc, char* argv[])        /* cp: copy f1 to f2 */
 {
         int     f1, f2, n;
@@ -21,4 +23,13 @@ int main(int argc, char* argv[])        /* cp: copy f1 to f2 */
                 if (write(f2, buf, n) != n)
                         error("write error", (char *) 0);
         exit(0);
+}
+
+void error(char *s1, char *s2)  /* print error message and die */
+{
+        extern int errno, sys_nerr;
+        extern char *sys_errlist[];
+        
+        if (progname)
+                fprintf(stderr,
 }
