@@ -7,6 +7,7 @@
 
 FILE *efopen(char *, char *);
 void idiff(FILE *, FILE *, FILE *, FILE *);
+void parse(char *, int *, int *, int *, int *, int *);
 
 char    *progname;
 #define HUGE    10000   /* large number of lines */
@@ -48,6 +49,10 @@ vid idff(FILE *f1, FILE *f2, FILE *fin, FILE *fout)	/* process diffs */
 	}
 }
 
+void parse(char *s, int *pfrom1, int *pto1, int *pcmd, int *from2, int *pto2)
+{
+	
+}
 
 FILE *efopen(char *file, char *mode)		/* fopen file, die if can't */
 {
