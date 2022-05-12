@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>             /* exit(); char *mktemp(char *template); */
 #include <ctype.h>
-#include <unistd.h>             /* int unlink(const char *pathname)     */
+#include <unistd.h>             /* close(); int unlink(const char *pathname)     */
 
 FILE *efopen(char *, char *);
 void idiff(FILE *, FILE *, FILE *, FILE *);
@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
         FILE    *fin, *fout, *f1, *f2;
         char    buf[BUFSIZ];
         char    *diffout = "idiff.xxxxxx";
+	int	fd;
 
         progname = argv[0];
         if (argc != 3) {
@@ -27,7 +28,8 @@ int main(int argc, char *argv[])
         f1 = efopen(argv[1], "r");
         f2 = efopen(argv[2], "r");
         fout = efopen("idiff.out", "w");
-        mktemp(diffout);
+        fd = mkstemp(diffout);
+	close(fd);
         sprintf(buf, "diff %s %s >%s", argv[1], argv[2], diffout);
         system(buf);
         fin = efopen(diffout, "r");
@@ -43,8 +45,10 @@ void idiff(FILE *f1, FILE *f2, FILE *fin, FILE *fout)	/* process diffs */
 	char	buf[BUFSIZ], buf2[BUFSIZ];
 	FILE	*ft;
 	int	cmd, n, from1, to1, from2, to2, nf1, nf2;
+	int	fd;
 	
-	mktemp(tempfile);
+	fd = mkstemp(tempfile);
+	close(fd);
 	nf1 = nf2 = 0;
 	while (fgets(buf, sizeof buf, fin) != NULL) {
 		parse(buf, &from1, &to1, &cmd, &from2, &to2);
