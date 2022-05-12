@@ -51,7 +51,22 @@ vid idff(FILE *f1, FILE *f2, FILE *fin, FILE *fout)	/* process diffs */
 
 void parse(char *s, int *pfrom1, int *pto1, int *pcmd, int *from2, int *pto2)
 {
+#define a2i(p) while (isdigit(*s)) p = 10 * (p) + *s++ - '0'
 	
+	*pfrom1 = *pto1 = *pfrom2 = *pto2 = 0;
+	a2i(*pfrom1);
+	if (*s == ',') {
+		s++;
+		a2i(*pto1);
+	} else
+		*pto1 = *pfrom1;
+	*pcmd = *s++;
+	a2i(*pfrom2);
+	if (*s == ',') {
+		s++;
+		a2i(*pto2);
+	} else
+		*pto2 = *pfrom2;
 }
 
 FILE *efopen(char *file, char *mode)		/* fopen file, die if can't */
