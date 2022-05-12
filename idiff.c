@@ -6,6 +6,7 @@
 #include <unistd.h>             /* int unlink(const char *pathname)     */
 
 FILE *efopen(char *, char *);
+void idiff(FILE *, FILE *, FILE *, FILE *);
 
 char    *progname;
 #define HUGE    10000   /* large number of lines */
@@ -32,6 +33,21 @@ int main(int argc, char *argv[])
         printf("%s output in file idiff.out\n", progname);
         exit(0);
 }
+
+vid idff(FILE *f1, FILE *f2, FILE *fin, FILE *fout)	/* process diffs */
+{
+	char	*tempfile = "idiff.xxxxxx";
+	char	buf[BUFSIZ], buf2[BUFSIZ];
+	FILE	*ft;
+	int	cmd, n, from1, to1, from2, to2, nf1, nf2;
+	
+	mktemp(tempfile);
+	nf1 = nf2 = 0;
+	while (fgets(buf, sizeof buf, fin) != NULL) {
+		parse(buf, &from1, &to1, &cmd, &from2, &to2);
+	}
+}
+
 
 FILE *efopen(char *file, char *mode)		/* fopen file, die if can't */
 {
