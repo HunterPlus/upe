@@ -1,6 +1,10 @@
 /* cp: minimal version */
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
 #define PERMS   0644    /* RW for owner, R for group, others */
 char    *progname;
 
@@ -26,15 +30,11 @@ int main(int argc, char* argv[])        /* cp: copy f1 to f2 */
 }
 
 void error(char *s1, char *s2)  /* print error message and die */
-{
-        extern int errno, sys_nerr;
-        extern char *sys_errlist[];
-        
+{      
         if (progname)
                 fprintf(stderr, "%s: ", progname);
         fprintf(stderr, s1, s2);
-        if (errno > 0 && errno < sys_nerr)
-                fprintf (stderr, " (%s)", sys_errlist[errno]);
+        fprintf (stderr, " (%s)", strerror(errno));
         fprintf(stderr, "\n");
         exit(1);
 }
