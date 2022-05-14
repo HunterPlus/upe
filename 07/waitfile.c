@@ -33,6 +33,8 @@ int main(int argc, char *argv[])
                 execlp("cat", "cat", argv[1], (char *) 0);
                 error("can't execute cat %s", argv[1]);
         } else {                /* run process */
+        /*      for (int i = 0; i < argc; i++)
+                        fprintf(stderr, "%s\n", argv[i]);       */
                 execvp(argv[2], &argv[2]);
                 error("can't execute %s", argv[2]);
         }
