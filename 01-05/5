@@ -1,0 +1,2 @@
+# 2, 3, ...: print in n columns
+pr -`basename $0` -t -l1 $*

@@ -1,0 +1,2 @@
+x="Good Bye"
+echo $x

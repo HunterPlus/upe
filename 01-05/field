@@ -1,0 +1,2 @@
+# field: print the n-th field
+awk '{ print $'$1' }'

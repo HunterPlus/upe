@@ -1,0 +1,18 @@
+# news: print news files, final version
+
+# PATH=/bin:/usr/bin
+cd $HOME/news
+
+for i in `ls -t * $HOME/.news_time`
+do
+	IFS=' '
+	case $i in
+	*/.news_time)	break ;;
+	*)	set X`ls -l $i`
+		echo "
+$i: ($3) $6 $7 $8
+"
+		cat $i
+	esac
+done 
+touch $HOME/.news_time

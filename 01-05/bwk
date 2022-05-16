@@ -1,0 +1,6 @@
+# bwk: check bwk login the system
+
+until who | grep bwk
+do
+	sleep 3
+done

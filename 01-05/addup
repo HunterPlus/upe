@@ -1,0 +1,3 @@
+# addup: adds up the numbers in the n-th field
+awk '{ s += $'$1' }
+ END { print s }'
