@@ -52,6 +52,28 @@ int main(int argc, char *argv[])		/* hoc2 */
 	yyparse();
 }
 
+int yylex()					/* hoc2 */
+{
+	int	c;
+	
+	while ((c = getchar()) == ' ' || c == '\t')
+		;
+	if (c == EOF)
+		return 0;
+	if (c == '.' || isdigit(c)) {
+		ungetc(c, stdin);
+		scanf("%lf", &yylval.val);
+		return NUMBER;
+	}
+	if (islower(c)) {
+		yylval.index = c - 'a';		/* ASCII only */
+		return VAR;
+	}
+	if (c == '\n')
+		lineno++;
+	return c;
+}
+
 void warning(char *s, char *t)		/* print warning message */
 {
 	fprintf(stderr, "%s: %s", progname, s);
