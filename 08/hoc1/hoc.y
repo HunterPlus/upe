@@ -1,7 +1,8 @@
 %{
+#include <stdio.h>
 #define	YYSTYPE double		/* data type of yacc stack */
 int yylex(void);
-void yyerrors(char *);
+void yyerror(char *);
 %}
 
 %token	NUMBER
@@ -25,7 +26,7 @@ expr:	  NUMBER		{ $$ = $1; }
 %%	
 	  /* end of grammar */
 	  
-#include <stdio.h>
+
 #include <ctype.h>
 char	*progname;		/* for error message */
 int	lineno = 1;
@@ -62,7 +63,7 @@ void warning(char *s, char *t)		/* print warning message */
 	fprintf(stderr, " near line %d\n", lineno);
 }
 
-void yyerrors(char *s)			/* called for yacc syntax error */
+void yyerror(char *s)			/* called for yacc syntax error */
 {
 	warning(s, (char *) 0);
 }
