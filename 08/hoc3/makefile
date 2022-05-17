@@ -9,4 +9,4 @@ hoc.o math.o:	hoc.h
 init.o symbol.o:	hoc.h y.tab.h
 
 clean:
-	rm -f $(OBJS) y.tab.[ch]
+	rm -f hoc3 $(OBJS) y.tab.[ch]
