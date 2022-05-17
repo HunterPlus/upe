@@ -1,8 +1,6 @@
 #include "hoc.h"
 #include "y.tab.h"
-#include <math.h>
 
-extern double	Log(), Log10(), Exp(), Sqrt(), integer();
 static struct {		/* Constants */
 	char	*name;
 	double	cval;

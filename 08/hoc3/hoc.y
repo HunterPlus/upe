@@ -1,11 +1,5 @@
 %{
 #include "hoc.h"
-
-int yylex(void);
-void yyerror(char *);
-void execerror(char *, char*);
-
-extern double Pow();
 %}
 %union {
 	double	val;		/* actual value */
@@ -56,17 +50,18 @@ jmp_buf	begin;
 char	*progname;
 int	lineno = 1;
 
-int main(int argc, char *argv[])		/* hoc2 */
+int main(int argc, char *argv[])		/* hoc3 */
 {
 	void	fpecatch(int);
 	
 	progname = argv[0];
+	init();
 	setjmp(begin);
 	signal(SIGFPE, fpecatch);
 	yyparse();
 }
 
-int yylex()					/* hoc2 */
+int yylex()					/* hoc3 */
 {
 	int	c;
 	
@@ -79,9 +74,18 @@ int yylex()					/* hoc2 */
 		scanf("%lf", &yylval.val);
 		return NUMBER;
 	}
-	if (islower(c)) {
-		yylval.index = c - 'a';		/* ASCII only */
-		return VAR;
+	if (isalpha(c)) {
+		Symbol 	*s;
+		char	sbuf[100], *p = sbuf;
+		do {
+			*p++ = c;
+		} while ((c = getchar()) != EOF && isalnum(c));
+		ungetc(c, stdin);
+		*p = '\0';
+		if ((s = lookup(sbuf)) == 0)
+			s = install(sbuf, UNDEF, 0.0);
+		yylval.sym = s;
+		return s->type == UNDEF ? VAR : s->type;
 	}
 	if (c == '\n')
 		lineno++;

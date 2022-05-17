@@ -14,8 +14,7 @@ Symbol *lookup(char *s)		/* find s in symbol table */
 Symbol *install(char *s, int t, double d)	/* install s in symbol table */
 {
 	Symbol	*sp;
-	char	*emalloc();
-
+	
 	sp = (Symbol *) emalloc(sizeof(Symbol));
 	sp->name = emalloc(strlen(s) + 1);	/* +1 for '\0' */
 	strcpy(sp->name, s);
@@ -25,9 +24,9 @@ Symbol *install(char *s, int t, double d)	/* install s in symbol table */
 	symlist = sp;
 	return sp;
 }
-char *emalloc(unsigned n)		/* check return from malloc */
+void *emalloc(unsigned n)		/* check return from malloc */
 {
-	char	*p;
+	void	*p;
 	
 	p = malloc(n);
 	if (p == NULL)
