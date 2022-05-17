@@ -26,7 +26,7 @@ expr:	  NUMBER
 	| expr '*' expr	{ $$ = $1 * $3; }
 	| expr '/' expr	{
 		if ($3 == 0.0)
-			execerror("divison by zero", "");
+			execerror("division by zero", "");
 		$$ = $1 / $3; }
 	| '(' expr ')'	{ $$ = $2; }
 	| '-' expr %prec UNARYMINUS	{ $$ = -$2; }
