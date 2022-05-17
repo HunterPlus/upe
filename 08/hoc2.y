@@ -1,4 +1,7 @@
 %{
+int yylex(void);
+void execerror(char *, char *);
+
 double	mem[26];		/* memory for variable 'a' ... 'z' */
 %}
 %union {			/* stack type */
@@ -32,3 +35,38 @@ expr:	  NUMBER
 	| '-' expr %prec UNARYMINUS	{ $$ = -$2; }
 %%
 	/* end of grammar */
+
+#include <signal.h>
+#include <setjmp.h>
+jmp_buf	begin;
+char	*progname;
+int	lineno = 1;
+
+int main(int argc, char *argv[])		/* hoc2 */
+{
+	void	fpecatch(int);
+	
+	progname = argv[0];
+	setjmp(begin);
+	siganal(SIGFPE, fpecatch);
+	yyparse();
+}
+
+void warning(char *s, char *t)		/* print warning message */
+{
+	fprintf(stderr, "%s: %s", progname, s);
+	if (t)
+		fprintf(stderr, " %s", t);
+	fprintf(stderr, " near line %d\n", lineno);
+}
+
+void execerror(char *s, char *t)	/* recover from run-time error */
+{
+	warning(s, t);
+	longjmp(begin, 0);
+}
+
+void fpecatch(int signo)	/* catch floating point exceptions */
+{
+	execerror("floating point exception", (char *) 0);
+}
