@@ -36,8 +36,10 @@ expr:	  NUMBER
 %%
 	/* end of grammar */
 
+#include <stdio.h>
 #include <signal.h>
 #include <setjmp.h>
+
 jmp_buf	begin;
 char	*progname;
 int	lineno = 1;
