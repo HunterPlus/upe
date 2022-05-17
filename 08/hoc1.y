@@ -7,6 +7,7 @@ void yyerrors(char *);
 %token	NUMBER
 %left	'+' '-'			/* left associative, same precedence */
 %left 	'*' '/'			/* left assoc., higher precedence */
+%left	UNARYMINUS		/* new */
 
 %%
 list:	  /* nothing */
@@ -14,6 +15,7 @@ list:	  /* nothing */
 	| list expr '\n'	{ printf("\t%.8g\n", $2); }
 	;
 expr:	  NUMBER		{ $$ = $1; }
+	| '-' expr	%prec UNARYMINUS { $$ = -$2; }		/* new */
 	| expr '+' expr		{ $$ = $1 + $3; }
 	| expr '-' expr		{ $$ = $1 - $3; }
 	| expr '*' expr		{ $$ = $1 * $3; }
