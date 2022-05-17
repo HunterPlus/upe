@@ -1,5 +1,7 @@
 %{
 #define	YYSTYPE double		/* data type of yacc stack */
+int yylex(void);
+void yyerrors(const char *);
 %}
 
 %token	NUMBER
