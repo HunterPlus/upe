@@ -39,7 +39,7 @@ void warnig(char *s, char *t)		/* print warning message */
 	fprintf(stderr, " near line %d\n", lineno);
 }
 
-void yyerrors(char *s)			/* called for yacc syntax error
+void yyerrors(char *s)			/* called for yacc syntax error */
 {
 	warning(s, (char *) 0);
 }
