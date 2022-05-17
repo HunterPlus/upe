@@ -30,3 +30,16 @@ int yylex()					/* hoc1 */
 		lineno++;
 	return c;
 }
+
+void warnig(char *s, char *t)		/* print warning message */
+{
+	fprintf(stderr, "%s: %s", progname, s);
+	if (t)
+		fprintf(stderr, " %s", t);
+	fprintf(stderr, " near line %d\n", lineno);
+}
+
+void yyerrors(char *s)			/* called for yacc syntax error
+{
+	warning(s, (char *) 0);
+}
