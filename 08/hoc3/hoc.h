@@ -22,7 +22,7 @@ void init(void);
 Symbol *install(char *, int, double);
 Symbol *lookup(char *);
 
-void *emalloc(int);
+void *emalloc(unsigned int);
 
 double Log(double);
 double Log10(double);
