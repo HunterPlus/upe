@@ -52,7 +52,7 @@ int yylex()					/* hoc1 */
 	return c;
 }
 
-void warnig(char *s, char *t)		/* print warning message */
+void warning(char *s, char *t)		/* print warning message */
 {
 	fprintf(stderr, "%s: %s", progname, s);
 	if (t)
