@@ -1,5 +1,8 @@
 %{
+#include <stdio.h>
+
 int yylex(void);
+void yyerror(char *);
 void execerror(char *, char *);
 
 double	mem[26];		/* memory for variable 'a' ... 'z' */
@@ -19,7 +22,7 @@ double	mem[26];		/* memory for variable 'a' ... 'z' */
 list:	  /* nothing */
 	| list '\n'
 	| list expr '\n'	{ printf("\t%.8g\n", $2); }
-	| list error '\n'	{ yyerrok; }
+	| list error '\n'	{ yyerror; }
 	;
 expr:	  NUMBER
 	| VAR		{ $$ = mem[$1]; }
@@ -36,7 +39,8 @@ expr:	  NUMBER
 %%
 	/* end of grammar */
 
-#include <stdio.h>
+
+#include <ctype.h>
 #include <signal.h>
 #include <setjmp.h>
 
@@ -50,7 +54,7 @@ int main(int argc, char *argv[])		/* hoc2 */
 	
 	progname = argv[0];
 	setjmp(begin);
-	siganal(SIGFPE, fpecatch);
+	signal(SIGFPE, fpecatch);
 	yyparse();
 }
 
@@ -82,6 +86,11 @@ void warning(char *s, char *t)		/* print warning message */
 	if (t)
 		fprintf(stderr, " %s", t);
 	fprintf(stderr, " near line %d\n", lineno);
+}
+
+void yyerror(char *s)			/* called for yacc syntax error */
+{
+	warning(s, (char *) 0);
 }
 
 void execerror(char *s, char *t)	/* recover from run-time error */
