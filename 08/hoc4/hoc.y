@@ -30,12 +30,16 @@ expr:	  NUMBER		{ code2(constpush, (Inst)$1); }
 	| expr '+' expr		{ code(add); }
 	| expr '-' expr		{ code(sub); }
 	| expr '*' expr		{ code(mul); }
-	| expr '/' expr		{ code(div); }
+	| expr '/' expr		{ code(xdiv); }
 	| expr '^' expr		{ code(power); }
 	| '-' expr %prec UNARYMINUS { code(negate); }
 	;
 %%
 	/* end of grammar */
+
+#include <ctype.h>
+#include <signal.h>
+#include <setjmp.h>
 
 jmp_buf	begin;
 char	*progname;
@@ -74,9 +78,9 @@ int yylex()		/* hoc4 */
 		char sbuf[100], *p = sbuf;
 		
 		do {
-			p++ = c;
+			*p++ = c;
 		} while ((c = getchar()) != EOF && isalnum(c));
-		ungetc(c);
+		ungetc(c, stdin);
 		*p = '\0';
 		if ((s = lookup(sbuf)) == 0)
 			s = install(sbuf, UNDEF, 0.0);

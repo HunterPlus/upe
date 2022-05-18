@@ -32,9 +32,11 @@ typedef void (*Inst)();			/* machine instruction */
 #define STOP (Inst) 0
 extern Inst prog[];
 
+void initcode(void);
+void execute(Inst *);
 Datum pop(void);
-void asign(), bltin(), varpush(), constpush(), print(), eval();
-void add(), sub(), mul(), div(), negate(), power();
+void assign(), bltin(), varpush(), constpush(), print(), eval();
+void add(), sub(), mul(), xdiv(), negate(), power();
 
 double Log(double), Log10(double), Exp(double), Sqrt(double), integer(double);
 double Pow(double, double);

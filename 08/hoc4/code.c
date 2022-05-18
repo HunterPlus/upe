@@ -10,7 +10,7 @@ Inst	prog[NPROG];			/* the machine */
 Inst	*progp;				/* next free spot for code generation */
 Inst	*pc;				/* program counter during execution */
 
-initcode()				/* initialize for code generation */
+void initcode()				/* initialize for code generation */
 {
 	stackp = stack;
 	progp = prog;
@@ -123,7 +123,7 @@ void mul()
 	push(d1);
 }
 
-void div()
+void xdiv()
 {
 	Datum	d1, d2;
 	d2 = pop();
@@ -140,11 +140,11 @@ void negate()
 	d.val = -d.val;
 	push(d);
 }
-void pow()
+void power()
 {
 	Datum	d1, d2;
 	d2 = pop();
 	d1 = pop();
-	d1.val = Pow(d1, d2);
+	d1.val = Pow(d1.val, d2.val);
 	push(d1);
 }
