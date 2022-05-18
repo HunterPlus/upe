@@ -19,9 +19,6 @@ typedef union Datum {			/* interpreter stack type */
 	Symbol	*sym;
 } Datum;
 
-typedef int (*Inst)();			/* machine instruction */
-#define STOP (Inst) 0
-
 int yylex(void);
 void yyerror(char *);
 void execerror(char *, char*);
@@ -31,7 +28,10 @@ void *emalloc(unsigned int);
 Symbol *install(char *, int, double);
 Symbol *lookup(char *);
 
+typedef int (*Inst)();			/* machine instruction */
+#define STOP (Inst) 0
 extern Inst prog[];
+
 Datum pop(void);
 asign();
 bltin();
