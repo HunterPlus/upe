@@ -28,23 +28,13 @@ void *emalloc(unsigned int);
 Symbol *install(char *, int, double);
 Symbol *lookup(char *);
 
-typedef int (*Inst)();			/* machine instruction */
+typedef void (*Inst)();			/* machine instruction */
 #define STOP (Inst) 0
 extern Inst prog[];
 
 Datum pop(void);
-asign();
-bltin();
-varpush();
-constpush();
-print();
-eval();
-add();
-sub();
-mul();
-div();
-negate();
-power();
+void asign(), bltin(), varpush(), constpush(), print(), eval();
+void add(), sub(), mul(), div(), negate(), power();
 
 double Log(double), Log10(double), Exp(double), Sqrt(double), integer(double);
 double Pow(double, double);

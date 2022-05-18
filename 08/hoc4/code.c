@@ -52,7 +52,7 @@ void constpush()	/* push constant onto stack */
 	push(d);
 }
 
-voi varpush()		/* push variable onto stack */
+void varpush()		/* push variable onto stack */
 {
 	Datum	d;
 	d.sym = (Symbol *)(*pc++);
@@ -104,4 +104,47 @@ void bltin()	/* evaluate built-in on top of stack */
 	d = pop();
 	d.val = ((pf)*pc++)(d.val);
 	push(d);
+}
+
+void sub()
+{
+	Datum	d1, d2;
+	d2 = pop();
+	d1 = pop();
+	d1.val -= d2.val;
+	push(d1);
+}
+void mul()
+{
+	Datum	d1, d2;
+	d2 = pop();
+	d1 = pop();
+	d1.val *= d2.val;
+	push(d1);
+}
+
+void div()
+{
+	Datum	d1, d2;
+	d2 = pop();
+	d1 = pop();
+	if (d2.val == 0.0)
+		execerror("division by zero", "");
+	d1.val /= d2.val;
+	push(d1);
+}
+void negate()
+{
+	Datum	d;
+	d = pop();
+	d.val = -d.val;
+	push(d);
+}
+void pow()
+{
+	Datum	d1, d2;
+	d2 = pop();
+	d1 = pop();
+	d1.val = Pow(d1, d2);
+	push(d1);
 }
