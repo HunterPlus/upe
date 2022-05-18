@@ -14,15 +14,32 @@ typedef struct Symbol { 		/* symbol table entry */
 	struct Symbol	*next; 		/* to link to another */
 } Symbol;
 
+typedef union Datum {			/* interpreter stack type */
+	double	val;
+	Symbol	*sym;
+} Datum;
+
+typedef int (*Inst)();			/* machine instruction */
+#define STOP (Inst) 0
+
 int yylex(void);
 void yyerror(char *);
 void execerror(char *, char*);
 void init(void);
+void *emalloc(unsigned int);
 
 Symbol *install(char *, int, double);
 Symbol *lookup(char *);
 
-void *emalloc(unsigned int);
+Datum pop(void);
+
+extern Inst prog[];
+
+asign();
+bltin();
+varpush();
+constpush();
+print();
 
 double Log(double);
 double Log10(double);
