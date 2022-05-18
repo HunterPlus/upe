@@ -44,7 +44,7 @@ int main(int argc, char *argv[])	/* hoc4 */
 	
 	progname = argv[0];
 	init();
-	setjump(begin);
+	setjmp(begin);
 	signal(SIGFPE, fpecatch);
 	for (initcode(); yyparse(); initcode())
 		execute(prog);
