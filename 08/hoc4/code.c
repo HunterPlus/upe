@@ -15,3 +15,17 @@ initcode()				/* initialize for code generation */
 	stackp = stack;
 	progp = prog;
 }
+
+void push(Datum d)			/* push d onto stack */
+{
+	if (stackp >= &stack[NSTACK]) 
+		execerror("stack overflow", (char *) 0);
+	*stackp++ = d;
+}
+
+Datum pop()				/* pop and return top elem from stack */
+{
+	if (stackp <= stack)
+		execerror("stack underflow", (char *) 0);
+	return *--stackp;
+}
