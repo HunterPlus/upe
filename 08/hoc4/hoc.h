@@ -31,10 +31,8 @@ void *emalloc(unsigned int);
 Symbol *install(char *, int, double);
 Symbol *lookup(char *);
 
-Datum pop(void);
-
 extern Inst prog[];
-
+Datum pop(void);
 asign();
 bltin();
 varpush();
