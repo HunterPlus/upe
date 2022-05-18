@@ -37,6 +37,9 @@ expr:	  NUMBER		{ code2(constpush, (Inst)$1); }
 %%
 	/* end of grammar */
 
+jmp_buf	begin;
+char	*progname;
+int	lineno = 1;
 
 int main(int argc, char *argv[])	/* hoc4 */
 {
@@ -83,4 +86,28 @@ int yylex()		/* hoc4 */
 	if (c == '\n')
 		lineno++;
 	return c;
+}
+
+void warning(char *s, char *t)		/* print warning message */
+{
+	fprintf(stderr, "%s: %s", progname, s);
+	if (t)
+		fprintf(stderr, " %s", t);
+	fprintf(stderr, " near line %d\n", lineno);
+}
+
+void yyerror(char *s)			/* called for yacc syntax error */
+{
+	warning(s, (char *) 0);
+}
+
+void execerror(char *s, char *t)	/* recover from run-time error */
+{
+	warning(s, t);
+	longjmp(begin, 0);
+}
+
+void fpecatch(int signo)	/* catch floating point exceptions */
+{
+	execerror("floating point exception", (char *) 0);
 }
