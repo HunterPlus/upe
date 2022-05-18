@@ -18,3 +18,21 @@
 list:	  /* nothing */
 	| list '\n'
 	| list asgn '\n'	{ code2(pop, STOP); return 1; }
+	| list expr '\n'	{ code2(print, STOP); return 1; }
+	| list error '\n'	{ yyerror; }
+	;
+asgn:	  VAR '=' expr		{ code3(varpush, (Inst)$1, assign); }
+	;
+expr:	  NUMBER		{ code2(constpush, (Inst)$1); }
+	| VAR			{ code3(varpush, (Inst)$1, eval); }
+	| asgn		
+	| BLTIN '(' expr ')'	{ code2(bltin, (Inst)$1->u.ptr); }
+	| expr '+' expr		{ code(add); }
+	| expr '-' expr		{ code(sub); }
+	| expr '*' expr		{ code(mul); }
+	| expr '/' expr		{ code(div); }
+	| expr '^' expr		{ code(power); }
+	| '-' expr %prec UNARYMINUS { code(negate); }
+	;
+%%
+	/* end of grammar */
