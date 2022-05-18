@@ -46,10 +46,6 @@ div();
 negate();
 power();
 
-double Log(double);
-double Log10(double);
-double Exp(double);
-double Sqrt(double);
-double integer(double);
+double Log(double), Log10(double), Exp(double), Sqrt(double), integer(double);
 double Pow(double, double);
 double errcheck(double, char *);
