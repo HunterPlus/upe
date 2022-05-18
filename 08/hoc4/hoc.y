@@ -36,3 +36,17 @@ expr:	  NUMBER		{ code2(constpush, (Inst)$1); }
 	;
 %%
 	/* end of grammar */
+
+
+int main(int argc, char *argv[])	/* hoc4 */
+{
+	void	fpecatch(int);
+	
+	progname = argv[0];
+	init();
+	setjump(begin);
+	signal(SIGFPE, fpecatch);
+	for (initcode(); yyparse(); initcode())
+		execute(prog);
+	return 0;
+}
