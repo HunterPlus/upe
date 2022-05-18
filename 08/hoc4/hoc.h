@@ -38,6 +38,13 @@ bltin();
 varpush();
 constpush();
 print();
+eval();
+add();
+sub();
+mul();
+div();
+negate();
+power();
 
 double Log(double);
 double Log10(double);
