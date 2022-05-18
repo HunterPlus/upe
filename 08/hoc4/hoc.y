@@ -50,3 +50,37 @@ int main(int argc, char *argv[])	/* hoc4 */
 		execute(prog);
 	return 0;
 }
+
+int yylex()		/* hoc4 */
+{
+	int	c;
+	
+	while ((c = getchar()) == ' ' || c == '\t')
+		;
+	if (c == EOF)
+		return 0;
+	if (c == '.' || isdigit(c)) {		/* number */
+		double d;
+		ungetc(c, stdin);
+		scanf("%lf", &d);
+		yylval.sym = install("", NUMBER, d);
+		return NUMBER;
+	}
+	if (isalpha(c)) {
+		Symbol *s;
+		char sbuf[100], *p = sbuf;
+		
+		do {
+			p++ = c;
+		} while ((c = getchar()) != EOF && isalnum(c));
+		ungetc(c);
+		*p = '\0';
+		if ((s = lookup(sbuf)) == 0)
+			s = install(sbuf, UNDEF, 0.0);
+		yylval.sym = s;
+		return s->type == UNDEF ? VAR : s->type;
+	}
+	if (c == '\n')
+		lineno++;
+	return c;
+}
