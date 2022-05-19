@@ -7,3 +7,14 @@
 	Symbol	*sym;		/* symbole table pointer */
 	Inst	*inst;		/* machine instruction */
 }
+%token	<sym>	NUMBER PRINT VAR BLTIN UNDEF WHILE IF ELSE
+%type	<inst>	stmt asgn expr stmtlist cond while if end
+%right	'='
+%left	OR
+%left	AND
+%left	GT GE LT LE EQ NE
+%left	'+' '-'
+%left	'*' '/'
+%left	UNARYMINUS
+%right	'^'
+%%
