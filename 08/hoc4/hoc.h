@@ -40,4 +40,4 @@ void add(), sub(), mul(), xdiv(), negate(), power();
 
 double Log(double), Log10(double), Exp(double), Sqrt(double), integer(double);
 double Pow(double, double);
-double errcheck(double, char *);
+
