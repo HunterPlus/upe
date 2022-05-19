@@ -75,3 +75,83 @@ expr:	  NUMBER	{ $$ = code2(constpush, (Inst)$1); }
 	| NOT expr	{ $$ = $2; code(not); }
 	;
 %%
+	/* end of grammar */
+
+#include <ctype.h>
+#include <signal.h>
+#include <setjmp.h>
+
+jmp_buf	begin;
+char	*progname;
+int	lineno = 1;
+
+int main(int argc, char *argv[])	/* hoc4 */
+{
+	void	fpecatch(int);
+	
+	progname = argv[0];
+	init();
+	setjmp(begin);
+	signal(SIGFPE, fpecatch);
+	for (initcode(); yyparse(); initcode())
+		execute(prog);
+	return 0;
+}
+
+int yylex()		/* hoc4 */
+{
+	int	c;
+	
+	while ((c = getchar()) == ' ' || c == '\t')
+		;
+	if (c == EOF)
+		return 0;
+	if (c == '.' || isdigit(c)) {		/* number */
+		double d;
+		ungetc(c, stdin);
+		scanf("%lf", &d);
+		yylval.sym = install("", NUMBER, d);
+		return NUMBER;
+	}
+	if (isalpha(c)) {
+		Symbol *s;
+		char sbuf[100], *p = sbuf;
+		
+		do {
+			*p++ = c;
+		} while ((c = getchar()) != EOF && isalnum(c));
+		ungetc(c, stdin);
+		*p = '\0';
+		if ((s = lookup(sbuf)) == 0)
+			s = install(sbuf, UNDEF, 0.0);
+		yylval.sym = s;
+		return s->type == UNDEF ? VAR : s->type;
+	}
+	if (c == '\n')
+		lineno++;
+	return c;
+}
+
+void warning(char *s, char *t)		/* print warning message */
+{
+	fprintf(stderr, "%s: %s", progname, s);
+	if (t)
+		fprintf(stderr, " %s", t);
+	fprintf(stderr, " near line %d\n", lineno);
+}
+
+void yyerror(char *s)			/* called for yacc syntax error */
+{
+	warning(s, (char *) 0);
+}
+
+void execerror(char *s, char *t)	/* recover from run-time error */
+{
+	warning(s, t);
+	longjmp(begin, 0);
+}
+
+void fpecatch(int signo)	/* catch floating point exceptions */
+{
+	execerror("floating point exception", (char *) 0);
+}
