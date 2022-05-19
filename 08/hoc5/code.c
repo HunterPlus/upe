@@ -148,3 +148,48 @@ void power()
 	d1.val = Pow(d1.val, d2.val);
 	push(d1);
 }
+
+void gt()
+{
+	Datum	d1, d2;
+	d2 = pop();
+	d1 = pop();
+	d1.val = (double)(d1.val > d2.val);
+	push(d1);
+}
+
+void lt()
+{
+	Datum	d1, d2;
+	d2 = pop();
+	d1 = pop();
+	d1.val = (double)(d1.val < d2.val);
+	push(d1);
+}
+
+void eq()
+{
+	Datum	d1, d2;
+	d2 = pop();
+	d1 = pop();
+	d1.val = (double)(d1.val == d2.val);
+	push(d1);
+}
+
+void ge()
+{
+	Datum	d1, d2;
+	d2 = pop();
+	d1 = pop();
+	d1.val = (double)(d1.val >= d2.val);
+	push(d1);
+}
+
+void le()
+{
+	Datum	d1, d2;
+	d2 = pop();
+	d1 = pop();
+	d1.val = (double)(d1.val <= d2.val);
+	push(d1);
+}
