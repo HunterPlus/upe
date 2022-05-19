@@ -30,10 +30,10 @@ Symbol *lookup(char *);
 
 typedef void (*Inst)();			/* machine instruction */
 #define STOP (Inst) 0
-extern Inst prog[];
+extern Inst prog[], *progp, *code(Inst);
 
-void initcode(void);
-void execute(Inst *);
+void initcode(void), execute(Inst *);
+
 Datum pop(void);
 void assign(), bltin(), varpush(), constpush(), print(), eval();
 void add(), sub(), mul(), xdiv(), negate(), power();
