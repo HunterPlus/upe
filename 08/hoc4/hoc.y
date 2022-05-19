@@ -17,7 +17,7 @@
 %%
 list:	  /* nothing */
 	| list '\n'
-	| list asgn '\n'	{ code2(pop, STOP); return 1; }
+	| list asgn '\n'	{ code2((Inst)pop, STOP); return 1; }
 	| list expr '\n'	{ code2(print, STOP); return 1; }
 	| list error '\n'	{ yyerror; }
 	;
