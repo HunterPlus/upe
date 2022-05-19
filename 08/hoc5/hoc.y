@@ -98,6 +98,16 @@ int main(int argc, char *argv[])	/* hoc4 */
 	return 0;
 }
 
+int follow(int expect, int ifyes, int ifno)	/* look ahead for >= etc. */
+{
+		int	c = getchar();
+		
+		if (c == expect)
+			return ifyes;
+		ungetc(c, stdin);
+		return ifno;
+}
+
 int yylex()		/* hoc4 */
 {
 	int	c;
