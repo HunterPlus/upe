@@ -47,6 +47,17 @@ void execute(Inst *p)	/* run the machine */
 
 void whilecode()
 {
+	Datum	d;
+	Inst	*savepc = pc;	/* loop body */
+	
+	execute(savepc + 2);	/* condition */
+	d = pop();		/* cond result */
+	while (d.val) {
+		execute(*((Inst **) savepc));	/* body */
+		execute(savepc + 2);
+		d = pop();
+	}
+	pc = *((Inst **) (savepc + 1));	/* next statement */
 }
 
 void ifcode()
