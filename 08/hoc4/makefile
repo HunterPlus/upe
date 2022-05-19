@@ -1,4 +1,5 @@
 YFLAGS = -d
+
 OBJS = hoc.o code.o init.o math.o symbol.o
 
 hoc4:	$(OBJS)
