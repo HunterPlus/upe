@@ -85,7 +85,7 @@ jmp_buf	begin;
 char	*progname;
 int	lineno = 1;
 
-int main(int argc, char *argv[])	/* hoc4 */
+int main(int argc, char *argv[])	/* hoc5 */
 {
 	void	fpecatch(int);
 	
@@ -108,7 +108,7 @@ int follow(int expect, int ifyes, int ifno)	/* look ahead for >= etc. */
 		return ifno;
 }
 
-int yylex()		/* hoc4 */
+int yylex()		/* hoc5 */
 {
 	int	c;
 	
@@ -137,9 +137,16 @@ int yylex()		/* hoc4 */
 		yylval.sym = s;
 		return s->type == UNDEF ? VAR : s->type;
 	}
-	if (c == '\n')
-		lineno++;
-	return c;
+	switch(c) {
+	case '>':	return follow('=', GE, GT);
+	case '<':	return follow('=', LE, LT);
+	case '=':	return follow('=', EQ, '=');
+	case '!':	return follow('=', NE, NOT);
+	case '|':	return follow('|', OR, '|');
+	case '&':	return follow('&', AND, '&');
+	case '\n':	lineno++; return '\n';
+	default:	return c;
+	}
 }
 
 void warning(char *s, char *t)		/* print warning message */
