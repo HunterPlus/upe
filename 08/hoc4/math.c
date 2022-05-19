@@ -1,5 +1,17 @@
 #include "hoc.h"
 
+double errcheck(double d, char *s)      /* check result of library call */
+{
+        if (errno == EDOM) {
+                errno = 0;
+                execerror(s, "argument out of domain");
+        } else if (errno == ERANGE) {
+                errno = 0;
+                execerror(s, "result out of range");
+        }
+        return d;
+}
+
 double Log(double x)
 {
         return errcheck(log(x), "log");
@@ -24,14 +36,4 @@ double integer(double x)
 { 
         return (double)(long)x;
 }
-double errcheck(double d, char *s)      /* check result of library call */
-{
-        if (errno == EDOM) {
-                errno = 0;
-                execerror(s, "argument out of domain");
-        } else if (errno == ERANGE) {
-                errno = 0;
-                execerror(s, "result out of range");
-        }
-        return d;
-}
+
