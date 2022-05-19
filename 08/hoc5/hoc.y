@@ -15,19 +15,19 @@
 %left	GT GE LT LE EQ NE
 %left	'+' '-'
 %left	'*' '/'
-%left	UNARYMINUS
+%left	UNARYMINUS NOT
 %right	'^'
 %%
 list:	  /* nothing */
 	| list '\n'
-	| list asgn '\n'	{ code2(pop, STOP); return 1; }
+	| list asgn '\n'	{ code2((Inst)pop, STOP); return 1; }
 	| list stmt '\n'	{ code(STOP); return 1; }
 	| list expr '\n'	{ code2(print, STOP); return 1; }
 	| list error '\n'	{ yyerror; }
 	;
 asgn:	  VAR '=' expr		{ code3(varpush, (Inst)$1, assign); }
 	;
-stmt:	  expr			{ code(pop); }
+stmt:	  expr			{ code((Inst)pop); }
 	| PRINT expr		{ code(prexpr); $$ = $2; }
 	| while cond stmt end {
 		($1)[1] = (Inst)$3;	/* body of loop */

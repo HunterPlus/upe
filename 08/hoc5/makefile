@@ -2,8 +2,8 @@ YFLAGS = -d
 
 OBJS = hoc.o code.o init.o math.o symbol.o
 
-hoc4:	$(OBJS)
-	cc -o hoc4 $(OBJS) -lm
+hoc5:	$(OBJS)
+	cc -o hoc5 $(OBJS) -lm
 
 hoc.o code.o init.o symbol.o math.o:	hoc.h
 
@@ -17,5 +17,5 @@ pr:	hoc.y hoc.h code.c init.c math.c symbol.c
 	@touch pr
 
 clean:
-	rm -f $(OBJS) [xy].tab.[ch] hoc4	
+	rm -f $(OBJS) [xy].tab.[ch] hoc5	
 

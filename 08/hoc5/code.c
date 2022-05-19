@@ -62,6 +62,16 @@ void whilecode()
 
 void ifcode()
 {
+	Datum	d;
+	Inst	*savepc = pc;		/* then part */
+
+	execute(savepc + 3);		/* condition */
+	d = pop();
+	if (d.val)
+		execute(*((Inst **) savepc));
+	else if (*((Inst **)(savepc+1)))	/* else part ? */
+		execute(*((Inst **)(savepc+1)));
+	pc = *((Inst **)(savepc+2));	/* next stmt */
 }
 
 void constpush()	/* push constant onto stack */
@@ -248,3 +258,9 @@ void not()
 	push(d);
 }
 	
+void prexpr()		/* print numeric value */
+{
+	Datum	d;
+	d = pop();
+	printf("%.8g\n", d.val);
+}
