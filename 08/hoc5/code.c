@@ -193,3 +193,39 @@ void le()
 	d1.val = (double)(d1.val <= d2.val);
 	push(d1);
 }
+
+void ne()
+{
+	Datum	d1, d2;
+	d2 = pop();
+	d1 = pop();
+	d1.val = (double)(d1.val != d2.val);
+	push(d1);
+}
+
+void and()
+{
+	Datum	d1, d2;
+	d2 = pop();
+	d1 = pop();
+	d1.val = (double)(d1.val && d2.val);
+	push(d1);
+}
+
+void or()
+{
+	Datum	d1, d2;
+	d2 = pop();
+	d1 = pop();
+	d1.val = (double)(d1.val || d2.val);
+	push(d1);
+}
+
+void not()
+{
+	Datum	d;
+	d = pop();
+	d.val = (double) !d.val;
+	push(d);
+}
+	
