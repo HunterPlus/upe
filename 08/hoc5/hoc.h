@@ -37,7 +37,10 @@ void initcode(void), execute(Inst *);
 Datum pop(void);
 void assign(), bltin(), varpush(), constpush(), print(), eval();
 void add(), sub(), mul(), xdiv(), negate(), power();
+prexpr();
+gt(), lt(), eq(), ge(), le(), ne(), and(), or(), not();
+ifcode(), whilecode();
 
 double Log(double), Log10(double), Exp(double), Sqrt(double), integer(double);
 double Pow(double, double);
-double errcheck(double, char *);
+
