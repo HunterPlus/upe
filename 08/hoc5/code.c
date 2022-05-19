@@ -45,6 +45,14 @@ void execute(Inst *p)	/* run the machine */
 		(*pc++)();
 }
 
+void whilecode()
+{
+}
+
+void ifcode()
+{
+}
+
 void constpush()	/* push constant onto stack */
 {
 	Datum 	d;
