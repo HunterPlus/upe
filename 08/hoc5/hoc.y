@@ -41,3 +41,37 @@ stmt:	  expr			{ code(pop); }
 		($1)[3] = (Inst)$7; }	/* end, if cond fails */
 	| '{' stmtlist '}'	{ $$ = $2; }
 	;
+cond:	  '(' expr ')'		{ code(STOP); $$ = $2; }
+	;
+while:	  WHILE	{ $$ = code3(whilecode, STOP, STOP); }
+	;
+if:	  IF	{ $$ = code(ifcode); code3(STOP, STOP, STOP); }
+	;
+end:	  /* nother */	{ code(STOP); $$ = progp; }
+	;
+stmtlist: /* nothing */	{ $$ = progp; }
+	| stmtlist '\n'
+	| stmtlist stmt
+	;
+expr:	  NUMBER	{ $$ = code2(constpush, (Inst)$1); }
+	| VAR		{ $$ = code3(varpush, (Inst)$1, eval); }
+	| asgn
+	| BLTIN '(' expr ')' { $$ = $3; code2(bltin, (Inst)$1->u.ptr); }
+	| '(' expr ')'	{ $$ = $2; }
+	| expr '+' expr	{ code(add); }
+	| expr '-' expr	{ code(sub); }
+	| expr '*' expr	{ code(mul); }
+	| expr '/' expr { code(xdiv); }
+	| expr '^' expr { code(power); }
+	| '-' expr %prec UNARYMINUS { $$ = $2; code(negate); }
+	| expr GT expr	{ code(gt); }
+	| expr GE expr	{ code(ge); }
+	| expr LT expr	{ code(lt); }
+	| expr LE expr	{ code(le); }
+	| expr EQ expr	{ code(eq); }
+	| expr NE expr	{ code(ne); }
+	| expr AND expr	{ code(and); }
+	| expr OR expr	{ code(or); }
+	| NOT expr	{ $$ = $2; code(not); }
+	;
+%%
